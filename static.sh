@@ -24,6 +24,14 @@ function check_networkd() {
     fi
     return 1
 }
+function check_hostnamectl() {
+    if which hostnamectl > /dev/null; then
+        echo -e "\nHostnamectl is installed, proceeding...\n"
+        return 0
+    fi
+    echo -e "\nHostnamectl is not installed, exiting...\n"
+    return 1
+}
 function backup_yaml() {
     echo -e "\nRenaming all .yaml files inside /etc/netplan/ to .yaml.bak\n"
     sudo mv /etc/netplan/*.yaml /etc/netplan/*.yaml.bak
@@ -100,5 +108,6 @@ EOF
 check_os
 check_netplan
 check_networkd
+check_hostnamectl
 backup_yaml
 create_static_yaml
